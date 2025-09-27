@@ -1,19 +1,30 @@
 from torch.utils.tensorboard import SummaryWriter # 需要先安装tensorboard, pip install tensorboards
 from torchvision.transforms import ToTensor
-import numpy as np
 from PIL import Image
+import numpy as np
 import cv2
+import os
 
 # 创建SummaryWriter对象，指定日志保存路径
 writer = SummaryWriter("Scripts/P7-8. TensorBoard的使用/logs/add_image")
 
 # 添加图片
-ant_image_path = "Dataset/train/ants/0013035.jpg"
+ant_image_paths = ["Dataset/train/ants/0013035.jpg", "Dataset/train/ants/175998972.jpg", "Dataset/train/ants/Ant_1.jpg"]
 bee_image_path = "Dataset/train/bees/16838648_415acd9e3f.jpg"
 
 # 使用OpenCV加载图片，注意OpenCV加载的图片格式为HWC且通道顺序为BGR(Blue,Green,Red)，需要转换为RGB格式
-ant_image = cv2.imread(ant_image_path)
-ant_image = cv2.cvtColor(ant_image, cv2.COLOR_BGR2RGB) 
+i = 0 # 初始化计数器作为步数
+for ant_image_path in ant_image_paths:
+    # 检查文件是否存在
+    if not os.path.exists(ant_image_path):
+        print(f"File not found: {ant_image_path}")
+        continue
+    
+    ant_image = cv2.imread(ant_image_path)
+    ant_image = cv2.cvtColor(ant_image, cv2.COLOR_BGR2RGB) 
+    
+    writer.add_image("ant", ant_image, i, dataformats='HWC')
+    i += 1
 
 # 使用PIL加载图片，PIL加载的图片格式为HWC且通道顺序为RGB
 bee_image = Image.open(bee_image_path)
@@ -26,7 +37,6 @@ np_img[1] = 1 - np.arange(0, 10000).reshape(100, 100) / 10000
 
 # 使用writer.add_image()方法添加图片，注意指定dataformats参数默认为'CHW'
 # 如果传入的图片格式为HWC，则需要指定dataformats='HWC'
-writer.add_image("ant", ant_image, 0, dataformats='HWC')
 writer.add_image("bee", bee_image, 1)
 writer.add_image("numpy_CHW", np_img, 2)
 
