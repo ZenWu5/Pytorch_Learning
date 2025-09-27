@@ -37,3 +37,7 @@ if __name__ == "__main__":
     
     # 输出数据集类型和长度，这里可以看到Dataset类型是: list[tuple(data: np.ndarray, label: str)]
     print(f"Data Example: {train_dataset[0]}, Length: {train_dataset.__len__()}") 
+
+    # 下面这是类似于教程视频中的显示图像功能，但由于cv2.imread()直接转换为了numpy.ndarray格式，所以无法显示图像
+    # image, label = train_dataset[0]
+    # image.show()
