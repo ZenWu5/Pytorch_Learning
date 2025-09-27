@@ -20,7 +20,7 @@ class ImageDataset(Dataset):
 
 # 使用示例
 if __name__ == "__main__":
-    image_root_path = "Dataset/hymenoptera_data/train" # 相对路径
+    image_root_path = "Dataset/train" # 相对路径
     ants_label = "ants"
     bees_label = "bees"
     
